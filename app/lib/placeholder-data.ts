@@ -184,4 +184,19 @@ const cardData = {
   }),
 };
 
+export async function fetchRevenue() {
+  await new Promise((resolve) => setTimeout(resolve, 5));
+  return revenue;
+}
+
+export async function fetchLatestInvoices() {
+  await new Promise((resolve) => setTimeout(resolve, 5));
+  return latestInvoices;
+}
+
+export async function fetchCardData() {
+  await new Promise((resolve) => setTimeout(resolve, 5));
+  return cardData;
+}
+
 export { users, customers, invoices, revenue, latestInvoices, cardData };
