@@ -144,4 +144,23 @@ const revenue = [
   { month: 'Dec', revenue: 4800 },
 ];
 
-export { users, customers, invoices, revenue };
+const latestInvoices = invoices
+  .map((invoice) => {
+    const customer = customers.find((c) => c.id === invoice.customer_id);
+    return {
+      id: invoice.customer_id,
+      name: customer?.name || '',
+      email: customer?.email || '',
+      image_url: customer?.image_url || '',
+      amount: (invoice.amount / 100).toLocaleString('en-US', {
+        style: 'currency',
+        currency: 'USD',
+      }),
+      date: invoice.date,
+    };
+  })
+  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+  .slice(0, 5)
+  .map(({ date, ...rest }) => rest);
+
+export { users, customers, invoices, revenue, latestInvoices };
