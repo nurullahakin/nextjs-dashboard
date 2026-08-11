@@ -163,4 +163,25 @@ const latestInvoices = invoices
   .slice(0, 5)
   .map(({ date, ...rest }) => rest);
 
-export { users, customers, invoices, revenue, latestInvoices };
+const cardData = {
+  numberOfCustomers: customers.length,
+  numberOfInvoices: invoices.length,
+  totalPaidInvoices: (
+    invoices
+      .filter((invoice) => invoice.status === 'paid')
+      .reduce((sum, invoice) => sum + invoice.amount, 0) / 100
+  ).toLocaleString('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  }),
+  totalPendingInvoices: (
+    invoices
+      .filter((invoice) => invoice.status === 'pending')
+      .reduce((sum, invoice) => sum + invoice.amount, 0) / 100
+  ).toLocaleString('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  }),
+};
+
+export { users, customers, invoices, revenue, latestInvoices, cardData };
