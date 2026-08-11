@@ -185,17 +185,17 @@ const cardData = {
 };
 
 export async function fetchRevenue() {
-  await new Promise((resolve) => setTimeout(resolve, 5));
+  await new Promise((resolve) => setTimeout(resolve, 500));
   return revenue;
 }
 
 export async function fetchLatestInvoices() {
-  await new Promise((resolve) => setTimeout(resolve, 5));
+  await new Promise((resolve) => setTimeout(resolve, 200));
   return latestInvoices;
 }
 
 export async function fetchCardData() {
-  await new Promise((resolve) => setTimeout(resolve, 5));
+  await new Promise((resolve) => setTimeout(resolve, 10));
   return cardData;
 }
 
