@@ -1,7 +1,7 @@
 'use server';
 
 import { z } from 'zod';
-import { insertInvoice, updateInvoice as updateInvoiceDb } from './placeholder-data';
+import { insertInvoice, updateInvoice as updateInvoiceDb, deleteInvoice as deleteInvoiceDb } from './placeholder-data';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
@@ -52,4 +52,9 @@ export async function updateInvoice(id: string, formData: FormData) {
 
   revalidatePath('/dashboard/invoices');
   redirect('/dashboard/invoices');
+}
+
+export async function deleteInvoice(id: string) {
+  await deleteInvoiceDb(id);
+  revalidatePath('/dashboard/invoices');
 }
