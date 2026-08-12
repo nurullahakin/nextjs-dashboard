@@ -199,4 +199,46 @@ export async function fetchCardData() {
   return cardData;
 }
 
+const ITEMS_PER_PAGE = 6;
+export async function fetchFilteredInvoices(
+  query: string,
+  currentPage: number,
+) {
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+
+  // Join invoices with customer data
+  const invoicesWithCustomers = invoices.map((invoice) => {
+    const customer = customers.find((c) => c.id === invoice.customer_id);
+    return {
+      id: invoice.customer_id,
+      amount: invoice.amount,
+      date: invoice.date,
+      status: invoice.status,
+      name: customer?.name || '',
+      email: customer?.email || '',
+      image_url: customer?.image_url || '',
+    };
+  });
+
+  // Filter based on query (case-insensitive search)
+  const filtered = invoicesWithCustomers.filter((invoice) => {
+    const lowerQuery = query.toLowerCase();
+    return (
+      invoice.name.toLowerCase().includes(lowerQuery) ||
+      invoice.email.toLowerCase().includes(lowerQuery) ||
+      invoice.amount.toString().includes(lowerQuery) ||
+      invoice.date.toLowerCase().includes(lowerQuery) ||
+      invoice.status.toLowerCase().includes(lowerQuery)
+    );
+  });
+
+  // Sort by date descending
+  const sorted = filtered.sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
+
+  // Apply pagination
+  return sorted.slice(offset, offset + ITEMS_PER_PAGE);
+}
+
 export { users, customers, invoices, revenue, latestInvoices, cardData };
