@@ -322,4 +322,25 @@ export async function insertInvoice(data: {
   return newInvoice;
 }
 
+export async function updateInvoice(
+  id: string,
+  data: {
+    customerId: string;
+    amount: number;
+    status: 'pending' | 'paid';
+  }
+) {
+  const index = invoices.findIndex((invoice) => invoice.id === id);
+  if (index !== -1) {
+    invoices[index] = {
+      ...invoices[index],
+      customer_id: data.customerId,
+      amount: data.amount,
+      status: data.status,
+    };
+    return invoices[index];
+  }
+  return undefined;
+}
+
 export { users, customers, invoices, revenue, latestInvoices, cardData };
