@@ -241,4 +241,33 @@ export async function fetchFilteredInvoices(
   return sorted.slice(offset, offset + ITEMS_PER_PAGE);
 }
 
+export async function fetchInvoicesPages(query: string) {
+  // Join invoices with customer data
+  const invoicesWithCustomers = invoices.map((invoice) => {
+    const customer = customers.find((c) => c.id === invoice.customer_id);
+    return {
+      name: customer?.name || '',
+      email: customer?.email || '',
+      amount: invoice.amount,
+      date: invoice.date,
+      status: invoice.status,
+    };
+  });
+
+  // Filter based on query (case-insensitive search)
+  const filtered = invoicesWithCustomers.filter((invoice) => {
+    const lowerQuery = query.toLowerCase();
+    return (
+      invoice.name.toLowerCase().includes(lowerQuery) ||
+      invoice.email.toLowerCase().includes(lowerQuery) ||
+      invoice.amount.toString().includes(lowerQuery) ||
+      invoice.date.toLowerCase().includes(lowerQuery) ||
+      invoice.status.toLowerCase().includes(lowerQuery)
+    );
+  });
+
+  const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
+  return totalPages;
+}
+
 export { users, customers, invoices, revenue, latestInvoices, cardData };
