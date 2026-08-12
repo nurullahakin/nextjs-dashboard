@@ -343,4 +343,13 @@ export async function updateInvoice(
   return undefined;
 }
 
+export async function deleteInvoice(id: string) {
+  const index = invoices.findIndex((invoice) => invoice.id === id);
+  if (index !== -1) {
+    const deleted = invoices.splice(index, 1);
+    return deleted[0];
+  }
+  return undefined;
+}
+
 export { users, customers, invoices, revenue, latestInvoices, cardData };
