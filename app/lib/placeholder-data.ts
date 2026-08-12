@@ -283,4 +283,30 @@ export async function fetchInvoicesPages(query: string) {
   return totalPages;
 }
 
+export async function fetchCustomers() {
+  return customers
+    .map((customer) => ({
+      id: customer.id,
+      name: customer.name,
+    }))
+    .sort((a, b) => a.name.localeCompare(b.name));
+}
+
+export async function insertInvoice(data: {
+  customerId: string;
+  amount: number;
+  status: 'pending' | 'paid';
+  date: string;
+}) {
+  const newInvoice = {
+    id: crypto.randomUUID(),
+    customer_id: data.customerId,
+    amount: data.amount,
+    status: data.status,
+    date: data.date,
+  };
+  invoices.push(newInvoice);
+  return newInvoice;
+}
+
 export { users, customers, invoices, revenue, latestInvoices, cardData };
