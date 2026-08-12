@@ -50,78 +50,91 @@ const customers = [
 
 const invoices = [
   {
+    id: '3958dc9e-787f-4377-85e9-fec4b6a6442a',
     customer_id: customers[0].id,
     amount: 15795,
     status: 'pending',
     date: '2022-12-06',
   },
   {
+    id: '3958dc9e-742f-4377-85e9-fec4b6a6442b',
     customer_id: customers[1].id,
     amount: 20348,
     status: 'pending',
     date: '2022-11-14',
   },
   {
+    id: '3958dc9e-742f-4377-85e9-fec4b6a6442c',
     customer_id: customers[4].id,
     amount: 3040,
     status: 'paid',
     date: '2022-10-29',
   },
   {
+    id: '3958dc9e-742f-4377-85e9-fec4b6a6442d',
     customer_id: customers[3].id,
     amount: 44800,
     status: 'paid',
     date: '2023-09-10',
   },
   {
+    id: '3958dc9e-742f-4377-85e9-fec4b6a6442e',
     customer_id: customers[5].id,
     amount: 34577,
     status: 'pending',
     date: '2023-08-05',
   },
   {
+    id: '3958dc9e-742f-4377-85e9-fec4b6a6442f',
     customer_id: customers[2].id,
     amount: 54246,
     status: 'pending',
     date: '2023-07-16',
   },
   {
+    id: '3958dc9e-742f-4377-85e9-fec4b6a64430',
     customer_id: customers[0].id,
     amount: 666,
     status: 'pending',
     date: '2023-06-27',
   },
   {
+    id: '3958dc9e-742f-4377-85e9-fec4b6a64431',
     customer_id: customers[3].id,
     amount: 32545,
     status: 'paid',
     date: '2023-06-09',
   },
   {
+    id: '3958dc9e-742f-4377-85e9-fec4b6a64432',
     customer_id: customers[4].id,
     amount: 1250,
     status: 'paid',
     date: '2023-06-17',
   },
   {
+    id: '3958dc9e-742f-4377-85e9-fec4b6a64433',
     customer_id: customers[5].id,
     amount: 8546,
     status: 'paid',
     date: '2023-06-07',
   },
   {
+    id: '3958dc9e-742f-4377-85e9-fec4b6a64434',
     customer_id: customers[1].id,
     amount: 500,
     status: 'paid',
     date: '2023-08-19',
   },
   {
+    id: '3958dc9e-742f-4377-85e9-fec4b6a64435',
     customer_id: customers[5].id,
     amount: 8945,
     status: 'paid',
     date: '2023-06-03',
   },
   {
+    id: '3958dc9e-742f-4377-85e9-fec4b6a64436',
     customer_id: customers[2].id,
     amount: 1000,
     status: 'paid',
@@ -148,7 +161,7 @@ const latestInvoices = invoices
   .map((invoice) => {
     const customer = customers.find((c) => c.id === invoice.customer_id);
     return {
-      id: invoice.customer_id,
+      id: invoice.id,
       name: customer?.name || '',
       email: customer?.email || '',
       image_url: customer?.image_url || '',
@@ -210,7 +223,7 @@ export async function fetchFilteredInvoices(
   const invoicesWithCustomers = invoices.map((invoice) => {
     const customer = customers.find((c) => c.id === invoice.customer_id);
     return {
-      id: invoice.customer_id,
+      id: invoice.id,
       amount: invoice.amount,
       date: invoice.date,
       status: invoice.status,
