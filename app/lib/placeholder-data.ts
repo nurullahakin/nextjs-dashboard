@@ -355,8 +355,9 @@ export async function deleteInvoice(id: string) {
 }
 
 export async function getUserByEmail(email: string) {
-  const user = users.find((u) => u.email === email);
+  let user = users.find((u) => u.email === email);
   if (user) {
+    user = { ...user };
     user.password = await bcrypt.hash(user.password, 10);
   }
   return user;
