@@ -1,3 +1,5 @@
+import bcrypt from "bcrypt";
+
 // This file contains placeholder data that you'll be replacing with real data in the Data Fetching chapter:
 // https://nextjs.org/learn/dashboard-app/fetching-data
 const users = [
@@ -350,6 +352,14 @@ export async function deleteInvoice(id: string) {
     return deleted[0];
   }
   return undefined;
+}
+
+export async function getUserByEmail(email: string) {
+  const user = users.find((u) => u.email === email);
+  if (user) {
+    user.password = await bcrypt.hash(user.password, 10);
+  }
+  return user;
 }
 
 export { users, customers, invoices, revenue, latestInvoices, cardData };
