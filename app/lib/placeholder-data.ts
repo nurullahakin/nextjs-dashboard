@@ -294,6 +294,53 @@ export async function fetchCustomers() {
     .sort((a, b) => a.name.localeCompare(b.name));
 }
 
+export async function fetchFilteredCustomers(query: string) {
+  const lowerQuery = query.toLowerCase();
+  
+  const customersWithInvoices = customers.map((customer) => {
+    // Get all invoices for this customer
+    const customerInvoices = invoices.filter(
+      (invoice) => invoice.customer_id === customer.id
+    );
+    
+    // Calculate totals
+    const total_invoices = customerInvoices.length;
+    const total_pending = customerInvoices
+      .filter((inv) => inv.status === 'pending')
+      .reduce((sum, inv) => sum + inv.amount, 0);
+    const total_paid = customerInvoices
+      .filter((inv) => inv.status === 'paid')
+      .reduce((sum, inv) => sum + inv.amount, 0);
+    
+    return {
+      id: customer.id,
+      name: customer.name,
+      email: customer.email,
+      image_url: customer.image_url,
+      total_invoices,
+      total_pending: (total_pending / 100).toLocaleString('en-US', {
+        style: 'currency',
+        currency: 'USD',
+      }),
+      total_paid: (total_paid / 100).toLocaleString('en-US', {
+        style: 'currency',
+        currency: 'USD',
+      }),
+    };
+  });
+  
+  // Filter by query
+  const filtered = customersWithInvoices.filter((customer) => {
+    return (
+      customer.name.toLowerCase().includes(lowerQuery) ||
+      customer.email.toLowerCase().includes(lowerQuery)
+    );
+  });
+  
+  // Sort by name
+  return filtered.sort((a, b) => a.name.localeCompare(b.name));
+}
+
 export async function fetchInvoiceById(id: string) {
   const invoice = invoices.find((inv) => inv.id === id);
   if (invoice) {
